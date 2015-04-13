@@ -1,0 +1,66 @@
+{{extend 'starter.html'}}
+<section class="col-lg-7 connectedSortable ui-sortable">
+    <div class="box box-info">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <H2>Rooms List</H2>
+
+        </div>
+        <div class="box-body">
+
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th style="width: 40px">Floor</th>
+                    <th style="width: 100px"></th>
+                </tr>
+                {{ for room in rooms:}}
+                <tr>
+                    <td>{{=room.number}}</td>
+                    <td>{{=room.title}}</td>
+                    <td>
+                        {{=room.content}}
+                    </td>
+                    <td><span class="badge bg-red">{{=room.floor}}</span></td>
+                    <td><a href="{{=URL('default', 'editRoom', args=room.objectId)}}"><button class="btn btn-block btn-primary">edit</button></a>
+                        <a href="{{=URL('default', 'deleteRoom', args=room.objectId)}}"><button class="btn btn-block btn-warning">delete</button></a></td>
+                </tr>
+
+                {{ pass }}
+
+                </tbody></table>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<section class="col-lg-5 connectedSortable ui-sortable">
+
+    <div class="box box-primary">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <H2>Room form</H2><small>{{=message}}</small>
+
+        </div>
+
+        <div class="box-body">
+            {{=form}}
+        </div>
+    </div>
+</section>
+
+<script>
+    var spoon = document.getElementsByName("name");
+    var x=x.value;
+    if (x==null || x=="") {
+////////////CHANGE INPUT CLASS/////////////
+    }
+    else {
+    document.getElementById('name').id="inputError";
+    }
+</script>

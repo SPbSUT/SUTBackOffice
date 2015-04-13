@@ -1,0 +1,43 @@
+{{extend 'starter.html'}}
+
+<section class="col-lg-13 connectedSortable ui-sortable">
+    <div class="box box-info">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <H2>Information List</H2> <a href="{{=URL('default', 'newContact')}}"><button class="btn">New</button></a>
+
+        </div>
+        <div class="box-body">
+
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+
+                    <th>First Name</th>
+                    <th>Lastname Name</th>
+                    <th>Job</th>
+                    <th>Telephone</th>
+                    <th>Email</th>
+                    <th>Photo</th>
+                </tr>
+                {{ for item in items:}}
+                <tr>
+                    <td>{{=item.firstName}}</td>
+                    <td>{{=item.lastName}}</td>
+                    <td>{{=item.job}}</td>
+                    <td>{{=item.tel}}</td>
+                    <td>{{=item.email}}</td>
+                    <td>{{=item.photo}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{=URL('default', 'editContact', args=item.objectId)}}"><button class="btn btn-primary">edit</button></a>
+                            <a href="{{=URL('default', 'deleteContact', args=item.objectId)}}"><button class="btn btn-warning">delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+
+                {{ pass }}
+
+                </tbody></table>
+        </div>
+    </div>
+</section>
