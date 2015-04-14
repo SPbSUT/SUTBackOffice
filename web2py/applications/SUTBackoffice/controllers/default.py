@@ -283,7 +283,7 @@ def newContact():
 
 
     response.pageTitle = T("New contact")
-    response.pageSubtitle = T("Here you can create a new")
+    response.pageSubtitle = T("Here you can create a new contact")
     response.active=32
     return dict(form=form, message=message)
 
@@ -414,3 +414,83 @@ def deleteContact():
     info.delete()
     redirect(URL('default', 'contacts'))
 
+
+def calendars():
+    calendarlist = calendar.Query.all()
+
+    response.view = 'default/calendar.html'
+    response.pageTitle = T("Calendar overview")
+    response.pageSubtitle = T("All information about schedule")
+    response.active=7
+    return dict(items=calendarlist)
+
+def newCalendar():
+
+    form = FORM(DIV(
+                INPUT(_name='name', _class="form-control", _placeholder="Name" ,requires=IS_NOT_EMPTY()),
+                INPUT(_name='id', _class="form-control", _placeholder="google calendar id" ,requires=IS_NOT_EMPTY()),
+                INPUT(_type='submit', _class="btn btn-primary")
+                ))
+
+    if form.process().accepted:
+        message = 'form accepted'
+        info = calendar()
+
+        info.name = form.vars.name
+        info.url = '<iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src='+\
+                   form.vars.id+\
+                   '%40group.calendar.google.com&amp;color=%2342104A&amp;ctz=Europe%2FMoscow" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>'
+        info.googleId = form.vars.id
+        info.save()
+        redirect(URL('default', 'calendars'))
+
+
+    elif form.errors:
+        message = 'form has errors'
+    else:
+        message = 'please fill out the form'
+
+    response.view = 'default/newCalendar.html'
+    response.pageTitle = T("New Calendar")
+    response.pageSubtitle = T("Here you can create a new calendar")
+    response.active=7
+    return dict(form=form, message=message)
+
+def editCalendar():
+    info = calendar.Query.get(objectId=request.args[0])
+
+
+    form = FORM(DIV(
+        INPUT(_name='name', _class="form-control", _placeholder="Name" ,requires=IS_NOT_EMPTY(), value=info.name),
+        INPUT(_name='id', _class="form-control", _placeholder="google calendar id" ,requires=IS_NOT_EMPTY(), value=info.googleId),
+        INPUT(_type='submit', _class="btn btn-primary")
+    ))
+
+    if form.process().accepted:
+        message = 'form accepted'
+
+        info.name = form.vars.name
+        info.url = '<iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;hl=en_GB&amp;bgcolor=%23FFFFFF&amp;src='+ \
+                   form.vars.id+ \
+                   '%40group.calendar.google.com&amp;color=%2342104A&amp;ctz=Europe%2FMoscow" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>'
+        info.googleId = form.vars.id
+        info.save()
+        redirect(URL('default', 'calendars'))
+
+
+    elif form.errors:
+        message = 'form has errors'
+    else:
+        message = 'please fill out the form'
+
+    response.view = 'default/newContact.html'
+    response.pageTitle = T("Edit Calendar")
+    response.pageSubtitle = T("Here you can edit a calendar")
+    response.active=7
+    return dict(form=form, message=message)
+
+def deleteCalendar():
+    objectId = request.args[0]
+    info = calendar.Query.get(objectId=objectId)
+    info.delete()
+    redirect(URL('default', 'calendars'))

@@ -1,0 +1,36 @@
+{{extend 'starter.html'}}
+
+<section class="col-lg-13 connectedSortable ui-sortable">
+    <div class="box box-info">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <H2>Schedule List</H2> <a href="{{=URL('default', 'newCalendar')}}"><button class="btn">New</button></a>
+
+        </div>
+        <div class="box-body">
+
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+
+                    <th>Name</th>
+                    <th>Google calendar ID</th>
+                    <th>options</th>
+                </tr>
+                {{ for item in items:}}
+                <tr>
+                    <td>{{=item.name}}</td>
+                    <td>{{=item.googleId}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{=URL('default', 'editCalendar', args=item.objectId)}}"><button class="btn btn-primary">edit</button></a>
+                            <a href="{{=URL('default', 'deleteCalendar', args=item.objectId)}}"><button class="btn btn-warning">delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+
+                {{ pass }}
+
+                </tbody></table>
+        </div>
+    </div>
+</section>

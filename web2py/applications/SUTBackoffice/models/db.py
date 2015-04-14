@@ -116,3 +116,5 @@ class categories(parse_rest.datatypes.Object):
 class contact(parse_rest.datatypes.Object):
     pass
 
+class calendar(parse_rest.datatypes.Object):
+    pass

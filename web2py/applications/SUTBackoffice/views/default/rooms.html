@@ -1,5 +1,6 @@
 {{extend 'starter.html'}}
-<section class="col-lg-7 connectedSortable ui-sortable">
+
+<section class="col-lg-7 ui-sortable">
     <div class="box box-info">
         <div class="box-header ui-sortable-handle" style="cursor: move;">
             <H2>Rooms List</H2>
@@ -25,7 +26,8 @@
                     </td>
                     <td><span class="badge bg-red">{{=room.floor}}</span></td>
                     <td><a href="{{=URL('default', 'editRoom', args=room.objectId)}}"><button class="btn btn-block btn-primary">edit</button></a>
-                        <a href="{{=URL('default', 'deleteRoom', args=room.objectId)}}"><button class="btn btn-block btn-warning">delete</button></a></td>
+                        <a href="{{=URL('default', 'deleteRoom', args=room.objectId)}}"><button class="btn btn-block btn-warning">delete</button></a>
+                    </td>
                 </tr>
 
                 {{ pass }}
@@ -53,14 +55,3 @@
         </div>
     </div>
 </section>
-
-<script>
-    var spoon = document.getElementsByName("name");
-    var x=x.value;
-    if (x==null || x=="") {
-////////////CHANGE INPUT CLASS/////////////
-    }
-    else {
-    document.getElementById('name').id="inputError";
-    }
-</script>
