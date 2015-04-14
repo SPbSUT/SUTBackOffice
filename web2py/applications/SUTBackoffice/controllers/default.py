@@ -39,7 +39,7 @@ def rooms():
                 INPUT(_type='submit', _class="btn btn-primary")
                 ))
 
-    if form.process().accepted:
+    if form.process().accepted: 
         message = 'form accepted'
         room = items()
         room.title = form.vars.title
@@ -326,12 +326,68 @@ def editContact():
     return dict(form=form, message=message)
 
 def vkInternationalCooperation():
+    import vk_api
+    import json
+    login, password = 'cygrosjean@gmail.com', ''
+    try:
+        vk = vk_api.VkApi(login, password)
+    except vk_api.AuthorizationError as error_msg:
+        print(error_msg) 
+        return
 
-    id267878646
+    values = {
+        'count': 5, # Получаем только один пост
+        'domain' : 'international_cooperation_spbsut'
+    }
+    jsonVk = vk.method('wall.get', values)
+    news=[]
+    for (val) in jsonVk["items"]:
+        new = {}
+        new['id'] = val["id"]
+        if not val["text"]:
+            for copy_history in val["copy_history"]:
+                new['text'] = copy_history["text"];
+            new['repost'] = 1
+        else:
+            new['text'] = val["text"]
+            new['repost'] = 0
+        news.append(new)
     response.pageTitle = T("VK InternationnalCooperation")
     response.pageSubtitle = T("Yep it's VK ;)")
     response.active=5
-    return dict()
+    return dict(news=news, message="")
+
+def vkNewsEnglish():
+    import vk_api
+    import json
+    login, password = 'cygrosjean@gmail.com', ''
+    try:
+        vk = vk_api.VkApi(login, password)
+    except vk_api.AuthorizationError as error_msg:
+        print(error_msg) 
+        return
+
+    values = {
+        'count': 5, # Получаем только один пост
+        'domain' : 'bonch.news.english'
+    }
+    jsonVk = vk.method('wall.get', values)
+    news=[]
+    for (val) in jsonVk["items"]:
+        new = {}
+        new['id'] = val["id"]
+        if not val["text"]:
+            for copy_history in val["copy_history"]:
+                new['text'] = copy_history["text"];
+            new['repost'] = 1
+        else:
+            new['text'] = val["text"]
+            new['repost'] = 0
+        news.append(new)
+    response.pageTitle = T("VK News English")
+    response.pageSubtitle = T("Yep it's VK ;)")
+    response.active=6
+    return dict(news=news, message="")
 
 @cache.action()
 def download():
